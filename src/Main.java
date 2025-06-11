@@ -1,4 +1,3 @@
-// Main.java
 import model.Employee;
 import notification.ConsoleNotification;
 import notification.EmailNotification;
@@ -13,11 +12,14 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         EmployeeDirectory directory = new EmployeeDirectory();
 
-        List<Notification> channels = Arrays.asList(new ConsoleNotification(), new EmailNotification());
+        List<Notification> channels = Arrays.asList(
+                new EmailNotification(),
+                new ConsoleNotification()
+        );
         NotificationService notificationService = new NotificationService(channels);
 
         while (true) {
-            System.out.println("\n==== Menu ====");
+            System.out.println("\n==== Bienvenue dans emailify, veuillez faire un choix dans le menu ci-dessous ====");
             System.out.println("1. Ajouter un employé");
             System.out.println("2. Afficher les employés");
             System.out.println("3. S'abonner à la notification");
@@ -66,16 +68,20 @@ public class Main {
                 }
                 case 5 -> {
                     System.out.print("Nom de l'expéditeur : ");
-                    String senderName = scanner.nextLine();
+                    String senderName = scanner.nextLine().trim();
                     Employee sender = directory.getEmployee(senderName);
-                    if (sender != null && notificationService.isSubscribed(sender)) {
-                        System.out.print("Message à envoyer : ");
-                        String msg = scanner.nextLine();
-                        notificationService.sendMessage(sender, msg);
+
+                    if (sender == null) {
+                        System.out.println("Expéditeur introuvable.");
+                    } else if (!notificationService.isSubscribed(sender)) {
+                        System.out.println("L'expéditeur n'est pas abonné au service de notification.");
                     } else {
-                        System.out.println("Expéditeur introuvable ou non abonné.");
+                        System.out.print("Message à envoyer : ");
+                        String msg = scanner.nextLine().trim();
+                        notificationService.sendMessage(sender, msg);
                     }
                 }
+
                 case 6 -> {
                     System.out.print("Nom de l'employé : ");
                     String name = scanner.nextLine();

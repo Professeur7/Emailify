@@ -11,6 +11,9 @@ public class Employee {
     public Employee(String name) {
         this.name = name;
     }
+    public void receiveNotification(String message) {
+        receivedMessages.add(message);
+    }
 
     public String getName() {
         return name;
@@ -23,4 +26,5 @@ public class Employee {
     public List<String> getReceivedMessages() {
         return receivedMessages;
     }
+
 }
