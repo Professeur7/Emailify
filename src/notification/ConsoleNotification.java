@@ -1,9 +1,13 @@
-// notification/ConsoleNotification.java
 package notification;
 
-public class ConsoleNotification implements Notification {
+import model.Employee;
+
+public abstract class ConsoleNotification implements Notification {
     @Override
-    public void send(String message, String sender, String receiver) {
-        System.out.println("[Console] À : " + receiver + " | De : " + sender + " | Message : " + message);
+    public void send(String message, Employee sender, Employee receiver) {
+        System.out.println("[Console] À : " + receiver.getName() +
+                " | De : " + sender.getName() +
+                " | Message : " + message);
+        receiver.receiveNotification("[Console] De " + sender.getName() + " : " + message);
     }
 }
